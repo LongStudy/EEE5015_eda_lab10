@@ -8,7 +8,11 @@ set write_name_nets_same_as_ports "true"
 set designer "XXXXX"
 set company  "SUSTECH"
 # Some design environment variables:
-set_app_var search_path ". $search_path ../../lib"
+set proj_path     ../../
+set work_path     $proj_path/dc
+set rtl_path      $proj_path/rtl
+set lib_path      $proj_path/lib
+set search_path   "$search_path $work_path $rtl_path $lib_path"
 # tc = Typical; bc = Best; wc = Worst:
 set_app_var target_library sc_max.db
 set_app_var link_library   sc_max.db

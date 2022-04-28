@@ -46,8 +46,8 @@ current_design $design_name
 ########################################################################
 ###      3.  set enviroment parameter and compile                    ###
 ########################################################################
-set_operating_conditions typical
-set_wire_load_model -name "tsmc090_wl10" [all_designs]
+set_operating_conditions -library cb13fs120_tsmc_max cb13fs120_tsmc_max
+set_wire_load_model -name tc8000000 -library cb13fs120_tsmc_max
 set_fix_multiple_port_nets -all -buffer_constants
 
 set_drive      5.0 [all_inputs]
@@ -73,7 +73,7 @@ set_max_delay  0.5 -to [all_outputs]
 
 # Drop into interactive mode for compile & optimize:
 compile
-#compile_ultra
+# compile_ultra
 # ungroup -all -flatten
 # compile -map_effort high 
 
@@ -81,7 +81,6 @@ compile
 ###      4.  report design&lib information                           ###
 ########################################################################
 check_design > "$work_path/reports/$design_name.check"
-
 report_area > $work_path/reports/$design_name.area
 report_power > $work_path/reports/$design_name.power
 report_timing  > $work_path/reports/$design_name.timing
@@ -102,8 +101,7 @@ write_sdf -version 2.1 "$work_path/outputs/$design_name.sdf"
 write_sdc "$work_path/outputs/$design_name.sdc"
 write_sdf "$work_path/outputs/$design_name.sdf"
 # Quit DC:
- exit
-
+exit
 sh date >> $work_path/outputs/$design_name.date
 #remove_design -all
 
