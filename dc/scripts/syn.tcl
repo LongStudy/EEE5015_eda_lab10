@@ -50,14 +50,34 @@ set_operating_conditions -library cb13fs120_tsmc_max cb13fs120_tsmc_max
 set_wire_load_model -name tc8000000 -library cb13fs120_tsmc_max
 set_fix_multiple_port_nets -all -buffer_constants
 
-set_drive      5.0 [all_inputs]
-set_load       1.0 [all_outputs]
-set_max_fanout 5   [all_inputs]
-set_max_transition 2.0 $design_name
-set_max_fanout 20 $design_name
+# 移除之前的约束
+reset_design
+#时钟周期3ns
+create_clock -period 3.0 [get_ports clk]  
+#系统时钟到输入端口clk时钟的延迟 
+set_clock_latency -source  -max 0.7 [get_clocks clk] 
+#输入端口时钟clk到模块内部时钟的延时
+set_clock_latency -max 0.3 [get_clocks clk]
+#时钟的不确定偏斜时间0.15ns
+set_clock_uncertainty -setup 0.15 [get_clocks clk]
+#时钟的转换时间0.12ns
+set_clock_transition 0.12 [get_clocks clk]
 
-set_max_area   2000
-set_max_delay  0.5 -to [all_outputs]
+#输入端口的延迟
+set_input_delay -max  0.3 -clock clk [all_inputs]
+#输入端口的转换时间 
+set_input_transition 0.12 [all_inputs]
+
+#输出端口out1的延迟
+set_output_delay -max  2.0 -clock clk [all_outputs]
+
+set_drive               5.0 [all_inputs]
+set_load                1.0 [all_outputs]
+set_max_fanout          5   [all_inputs]
+set_max_transition      2.0     $design_name
+set_max_fanout          20      $design_name
+set_max_area            2000
+set_max_delay           0.5 -to [all_outputs]
 
 # No clock buffers allowed for regular logic paths.
 #set_dont_use [get_cells slow/CLKBUF*]
@@ -72,8 +92,8 @@ set_max_delay  0.5 -to [all_outputs]
 # set dont touch cells
 
 # Drop into interactive mode for compile & optimize:
-compile
-# compile_ultra
+# compile
+compile_ultra
 # ungroup -all -flatten
 # compile -map_effort high 
 
