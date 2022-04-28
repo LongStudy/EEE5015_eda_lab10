@@ -21,7 +21,7 @@ reg [2*width-1:0]			inv_A;      // reverse result of A, extend to 2*width
 reg [2*width-1:0]			result_tmp; // operation register
 wire [1:0]					booth_code; // booth code
 assign booth_code = mult_B[1:0];       // booth code always equal to B[1:0]
-reg [7:0]                  count;      // count
+reg [3:0]                  count;      // counter
 
 always @ ( posedge clk or negedge rst_n )
     if( !rst_n )
