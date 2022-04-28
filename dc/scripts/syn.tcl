@@ -1,9 +1,9 @@
 ########################################################################
 #   This is a tcl script in dc_shell-t for pre-layout synthesis        #
-#   Company:  SUS TECH                                                 #		
-#   author:   Elvis                                                    #
+#   Company:  SUSTECH                                                  #		
+#   author:   XXXXX                                                    #
 #   Version   1.0                                                      #
-#   Date:     20190222                                                 #
+#   Date:     20220428                                                 #
 ########################################################################
 
 ########################################################################
@@ -11,26 +11,26 @@
 ########################################################################
 set hdlin_translate_off_skip_text "true"
 set verilogout_no_tri             "true"
-set default_schematic_options     "-size infinite"
+# 写出的netlist就不会包含assign,会把tri变成wire
+set default_schematic_options     "-size infinite"  
 set write_name_nets_same_as_ports "true"
 # dc_shell TcL startup script:
-set designer "Elvis"
-set company  "SUS TECH"
+set designer "XXXXX"
+set company  "SUSTECH"
 
 ########################################################################
 ###      1.  setup design files path                                 ###
-########################################################################
-#set proj_path     /mnt/hgfs/win_linux-2/2019/Work/proj_full_adder		
+########################################################################	
 set proj_path     ../../
 set work_path     $proj_path/dc
 set rtl_path      $proj_path/rtl
 set lib_path      $proj_path/lib
 set search_path   "$search_path $work_path $rtl_path $lib_path"
-set design_name   full_adder
+set design_name   multiplier
 
-set_app_var target_library typical.db
-set_app_var link_library   "* typical.db"
-set_app_var symbol_library tsmc090.sdb
+set_app_var target_library sc_max.db
+set_app_var link_library   sc_max.db
+set_app_var symbol_library sc_max.db
 ###      set svf file for formality                                  ###
 set_svf $work_path/outputs/$design_name.svf
 

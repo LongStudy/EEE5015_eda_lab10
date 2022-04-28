@@ -1,7 +1,7 @@
 // booth-one-parameter
 // max value = 16384 = 2'b0100 0000 0000 0000
 
-module booth_mult#(parameter width=8)(
+module multiplier#(parameter width=8)(
            input clk,
            input rst_n,
            input en,
@@ -21,7 +21,7 @@ reg [2*width-1:0]			inv_A;      // reverse result of A, extend to 2*width
 reg [2*width-1:0]			result_tmp; // operation register
 wire [1:0]					booth_code; // booth code
 assign booth_code = mult_B[1:0];       // booth code always equal to B[1:0]
-reg [31:0]                  count;      // count
+reg [7:0]                  count;      // count
 
 always @ ( posedge clk or negedge rst_n )
     if( !rst_n )
@@ -60,7 +60,7 @@ always @ ( posedge clk or negedge rst_n )
                     mult_A <= {mult_A[2*width-2:0],1'b0};  // shift mult_A to left, and add 1'b0 to the right
                     inv_A <=  {inv_A[2*width-2:0],1'b0};   // shift inv_A to left, and add 1'b0 to the right
                     mult_B <= {mult_B[width],mult_B[width:1]}; // shift mult_B to left, and extend singed bit
-                    count <= count + 1;
+                    count <= count + 1'b1;
                 end
                 else
                 begin

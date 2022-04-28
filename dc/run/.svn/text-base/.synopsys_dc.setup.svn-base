@@ -1,3 +1,0 @@
-set_app_var target_library sc_max.db
-set_app_var link_library "* sc_max.db"
-set_app_var search_path "$search_path ../../rtl ../lib ../scripts"
